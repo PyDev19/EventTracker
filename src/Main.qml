@@ -1,10 +1,15 @@
 import QtQuick
-import QtQuick.Controls
 import QtQuick.Controls.Material
 
 ApplicationWindow {
     id: window
     visible: true
+
+    Shortcut {
+        sequence: "Shift+r"
+        onActivated: {
+        }
+    }
 
     width: 340
     height: 625
@@ -12,15 +17,13 @@ ApplicationWindow {
     Material.theme: Material.Dark
     Material.accent: Material.Green
 
-    Rectangle {
+    StackView {
         id: main
-        color: "transparent"
         anchors.fill: parent
         anchors.centerIn: parent
 
-        HomeScreen {
+        initialItem: SignupScreen {
             id: home_screen
-            anchors.fill: parent
         }
     }
 }
