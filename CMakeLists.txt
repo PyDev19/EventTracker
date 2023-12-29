@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 project(EventTracker VERSION 0.1 LANGUAGES CXX)
 
@@ -13,13 +14,15 @@ qt_add_executable(EventTracker
 )
 
 set_source_files_properties(src/Main.qml PROPERTIES QT_RESOURCE_ALIAS Main.qml)
-set_source_files_properties(src/HomeScreen.qml PROPERTIES QT_RESOURCE_ALIAS HomeScreen.qml)
+set_source_files_properties(src/SignupScreen.qml PROPERTIES QT_RESOURCE_ALIAS SignupScreen.qml)
+set_source_files_properties(src/LoginScreen.qml PROPERTIES QT_RESOURCE_ALIAS LoginScreen.qml)
 
 qt_add_qml_module(EventTracker
     URI EventTracker
     VERSION 1.0
     QML_FILES src/Main.qml
-    QML_FILES src/HomeScreen.qml
+    QML_FILES src/LoginScreen.qml
+    QML_FILES src/SignupScreen.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
