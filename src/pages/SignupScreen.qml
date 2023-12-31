@@ -7,7 +7,14 @@ Page {
         text: "Back"
         font.pixelSize: 20
         font.family: "Segoe UI"
+        onClicked: {
+            main.pop(); 
+        }
         flat: true
+        icon.source: "data:image/svg+xml;utf8," + encodeURIComponent(
+                '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">' +
+                '<path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>' +
+                '</svg>')
     }
 
     ColumnLayout {
@@ -42,7 +49,7 @@ Page {
             TextField {
                 id: email_field
                 placeholderText: "Email"
-                Material.foreground: Material.White
+                Material.foreground: "#FFF"
                 Material.accent: Material.LightGreen
                 padding: 10
                 font.pixelSize: 20
@@ -55,7 +62,7 @@ Page {
             TextField {
                 id: _username_field
                 placeholderText: "Username"
-                Material.foreground: Material.White
+                Material.foreground: "#FFF"
                 Material.accent: Material.LightGreen
                 padding: 10
                 font.pixelSize: 20
@@ -68,7 +75,7 @@ Page {
             TextField {
                 id: _password_field
                 placeholderText: "Password"
-                Material.foreground: Material.White
+                Material.foreground: "#FFF"
                 Material.accent: Material.LightGreen
                 padding: 10
                 echoMode: TextInput.Password
@@ -82,7 +89,7 @@ Page {
             TextField {
                 id: confirm_password
                 placeholderText: "Confirm Password"
-                Material.foreground: Material.White
+                Material.foreground: "#FFF"
                 Material.accent: Material.LightGreen
                 padding: 10
                 echoMode: TextInput.Password
@@ -94,7 +101,7 @@ Page {
             }
 
             Button {
-                text: "Sign Up"
+                text: "Sign up"
                 Material.background: Material.Green
                 font.pixelSize: 20
                 font.family: "Segoe UI"

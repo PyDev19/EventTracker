@@ -1,15 +1,10 @@
 import QtQuick
 import QtQuick.Controls.Material
+import "pages/"
 
-ApplicationWindow {
+Item {
     id: window
     visible: true
-
-    Shortcut {
-        sequence: "Shift+r"
-        onActivated: {
-        }
-    }
 
     width: 340
     height: 625
@@ -22,7 +17,7 @@ ApplicationWindow {
         anchors.fill: parent
         anchors.centerIn: parent
 
-        initialItem: SignupScreen {
+        initialItem: LoginScreen {
             id: home_screen
         }
     }

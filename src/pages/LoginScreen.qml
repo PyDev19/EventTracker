@@ -35,7 +35,7 @@ Page {
             TextField {
                 id: username_field
                 placeholderText: "Username"
-                Material.foreground: Material.White
+                Material.foreground: "#FFF"
                 Material.accent: Material.LightGreen
                 padding: 10
                 font.pixelSize: 20
@@ -48,7 +48,7 @@ Page {
             TextField {
                 id: password_field
                 placeholderText: "Password"
-                Material.foreground: Material.White
+                Material.foreground: "#FFF"
                 Material.accent: Material.LightGreen
                 padding: 10
                 echoMode: TextInput.Password
@@ -73,6 +73,9 @@ Page {
                     font.pixelSize: 20
                     font.family: "Segoe UI"
                     Layout.alignment: Qt.AlignCenter
+                    onClicked: {
+                        
+                    }
                 }
 
                 Label {
