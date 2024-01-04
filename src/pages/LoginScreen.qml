@@ -1,4 +1,5 @@
 import QtQuick
+import QtQml
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 
@@ -33,8 +34,8 @@ Page {
             }
 
             TextField {
-                id: username_field
-                placeholderText: "Username"
+                id: email_field
+                placeholderText: "Email"
                 Material.foreground: "#FFF"
                 Material.accent: Material.LightGreen
                 padding: 10
@@ -74,7 +75,7 @@ Page {
                     font.family: "Segoe UI"
                     Layout.alignment: Qt.AlignCenter
                     onClicked: {
-                        
+                        auth.login(email_field.text, password_field.text); 
                     }
                 }
 
@@ -98,6 +99,14 @@ Page {
                     }
                 }
             }
+        }
+    }
+
+    Connections {
+        target: auth
+
+        function onLoginSuccess() {
+            main.push(Qt.resolvedUrl("HomeScreen.qml"))
         }
     }
 }

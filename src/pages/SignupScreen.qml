@@ -7,6 +7,8 @@ Page {
         text: "Back"
         font.pixelSize: 20
         font.family: "Segoe UI"
+        anchors.top: parent.top
+        anchors.topMargin: 10
         onClicked: {
             main.pop(); 
         }
@@ -47,7 +49,7 @@ Page {
             }
 
             TextField {
-                id: email_field
+                id: _email_field
                 placeholderText: "Email"
                 Material.foreground: "#FFF"
                 Material.accent: Material.LightGreen
@@ -106,7 +108,20 @@ Page {
                 font.pixelSize: 20
                 font.family: "Segoe UI"
                 Layout.alignment: Qt.AlignCenter
+                onClicked: {
+                    if (_password_field.text == confirm_password.text) {
+                        auth.sign_up(_email_field.text, _password_field.text);
+                    } 
+                }
             }
+        }
+    }
+
+    Connections {
+        target: auth
+        
+        function onSignupSuccess() {
+            main.pop();
         }
     }
 }
