@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1011524287555",
+    "project_id": "event-tracker-d6be1",
+    "storage_bucket": "event-tracker-d6be1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1011524287555:android:8df2ed7ff5c88ce7c3e8f6",
+        "android_client_info": {
+          "package_name": "com.pydev.EventTracker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUr2QftcFXWw8BQTCW0ZD_JIonYY92A3M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
