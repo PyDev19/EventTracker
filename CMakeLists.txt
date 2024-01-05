@@ -20,6 +20,10 @@ qt_add_executable(EventTracker
     include/firebase_auth.hpp
 )
 
+set_property(TARGET EventTracker APPEND PROPERTY
+    QT_ANDROID_PACKAGE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/android
+)
+
 set_source_files_properties(src/Main.qml PROPERTIES QT_RESOURCE_ALIAS Main.qml)
 set_source_files_properties(src/pages/SignupScreen.qml PROPERTIES QT_RESOURCE_ALIAS pages/SignupScreen.qml)
 set_source_files_properties(src/pages/LoginScreen.qml PROPERTIES QT_RESOURCE_ALIAS pages/LoginScreen.qml)
@@ -31,6 +35,7 @@ qt_add_qml_module(EventTracker
         src/Main.qml
         src/pages/LoginScreen.qml
         src/pages/SignupScreen.qml
+
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
