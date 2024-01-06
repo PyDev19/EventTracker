@@ -75,7 +75,7 @@ Page {
                     font.family: "Segoe UI"
                     Layout.alignment: Qt.AlignCenter
                     onClicked: {
-                        auth.login(email_field.text, password_field.text); 
+                        auth.login(email_field.text, password_field.text);
                     }
                 }
 

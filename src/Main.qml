@@ -17,12 +17,6 @@ ApplicationWindow {
         anchors.fill: parent
         anchors.centerIn: parent
 
-        initialItem: LoginScreen {
-            id: home_screen
-
-            Component.onCompleted: {
-                console.log("Loaded login screen");
-            }
-        }
+        initialItem: LoginScreen {}
     }
 }

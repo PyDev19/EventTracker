@@ -25,3 +25,8 @@ void FirebaseAuth::sign_up(QString email, QString password) {
         }
     });
 }
+
+void FirebaseAuth::sign_out() {
+    auth->SignOut();
+    emit signoutSuccess();
+}
