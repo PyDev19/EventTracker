@@ -19,10 +19,12 @@ public:
     explicit FirebaseAuth(App *firebase_app, QObject *parent = nullptr);
     Q_INVOKABLE void login(QString email, QString password);
     Q_INVOKABLE void sign_up(QString email, QString password);
+    Q_INVOKABLE void sign_out();
 
 signals:
     void loginSuccess();
     void signupSuccess();
+    void signoutSuccess();
 
 private:
     App *app;
