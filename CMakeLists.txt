@@ -27,6 +27,7 @@ set_property(TARGET EventTracker APPEND PROPERTY
 set_source_files_properties(src/Main.qml PROPERTIES QT_RESOURCE_ALIAS Main.qml)
 set_source_files_properties(src/pages/SignupScreen.qml PROPERTIES QT_RESOURCE_ALIAS pages/SignupScreen.qml)
 set_source_files_properties(src/pages/LoginScreen.qml PROPERTIES QT_RESOURCE_ALIAS pages/LoginScreen.qml)
+set_source_files_properties(src/pages/HomeScreen.qml PROPERTIES QT_RESOURCE_ALIAS pages/HomeScreen.qml)
 
 qt_add_qml_module(EventTracker
     URI EventTracker
@@ -35,7 +36,7 @@ qt_add_qml_module(EventTracker
         src/Main.qml
         src/pages/LoginScreen.qml
         src/pages/SignupScreen.qml
-
+        src/pages/HomeScreen.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
