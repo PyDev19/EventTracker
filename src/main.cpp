@@ -5,6 +5,7 @@
 #include <qnativeinterface.h>
 #include <firebase/app.h>
 #include "firebase_auth.hpp"
+#include "events_api.hpp"
 
 using namespace QNativeInterface;
 using firebase::App;
@@ -19,7 +20,9 @@ int main(int argc, char *argv[]) {
     QQmlApplicationEngine engine;
     
     FirebaseAuth firebase_auth(firebase_app);
+    EventsApi events_api;
     engine.rootContext()->setContextProperty("auth", &firebase_auth);
+    engine.rootContext()->setContextProperty("api", &events_api);
 
     const QUrl url(u"qrc:/EventTracker/Main.qml"_qs);
     QObject::connect(
