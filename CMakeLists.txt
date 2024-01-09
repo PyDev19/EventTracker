@@ -18,25 +18,31 @@ qt_add_executable(EventTracker
     src/main.cpp
     src/firebase_auth.cpp
     include/firebase_auth.hpp
+    src/events_api.cpp
+    include/events_api.hpp
 )
 
 set_property(TARGET EventTracker APPEND PROPERTY
     QT_ANDROID_PACKAGE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/android
 )
 
-set_source_files_properties(src/Main.qml PROPERTIES QT_RESOURCE_ALIAS Main.qml)
-set_source_files_properties(src/pages/SignupScreen.qml PROPERTIES QT_RESOURCE_ALIAS pages/SignupScreen.qml)
-set_source_files_properties(src/pages/LoginScreen.qml PROPERTIES QT_RESOURCE_ALIAS pages/LoginScreen.qml)
-set_source_files_properties(src/pages/HomeScreen.qml PROPERTIES QT_RESOURCE_ALIAS pages/HomeScreen.qml)
+set_source_files_properties(qml/Main.qml PROPERTIES QT_RESOURCE_ALIAS Main.qml)
+set_source_files_properties(qml/pages/HomeScreen.qml PROPERTIES QT_RESOURCE_ALIAS pages/HomeScreen.qml)
+set_source_files_properties(qml/pages/LoginScreen.qml PROPERTIES QT_RESOURCE_ALIAS pages/LoginScreen.qml)
+set_source_files_properties(qml/pages/SignupScreen.qml PROPERTIES QT_RESOURCE_ALIAS pages/SignupScreen.qml)
+set_source_files_properties(qml/components/EventDelegate.qml PROPERTIES QT_RESOURCE_ALIAS components/EventDelegate.qml)
 
 qt_add_qml_module(EventTracker
     URI EventTracker
     VERSION 1.0
-    QML_FILES 
-        src/Main.qml
-        src/pages/LoginScreen.qml
-        src/pages/SignupScreen.qml
-        src/pages/HomeScreen.qml
+    QML_FILES
+        qml/Main.qml
+        qml/pages/HomeScreen.qml
+        qml/pages/LoginScreen.qml
+        qml/pages/SignupScreen.qml
+        qml/components/EventDelegate.qml
+    RESOURCES 
+        animations/login_success.json
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
