@@ -6,8 +6,8 @@
 #include <firebase/auth.h>
 #include <firebase/auth/types.h>
 #include <QObject>
-#include <qjnienvironment.h>
-#include <qjniobject.h>
+#include <QJniEnvironment>
+#include <QJniObject>
 #include <qtmetamacros.h>
 
 using namespace firebase;
