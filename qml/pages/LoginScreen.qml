@@ -2,8 +2,57 @@ import QtQuick
 import QtQml
 import QtQuick.Controls.Material
 import QtQuick.Layouts
+import Qt.labs.lottieqt 1.0
 
 Page {
+     Popup {
+        id: login_success_popup
+        modal: true
+        focus: true
+        closePolicy: Popup.CloseOnPressOutside
+        
+        anchors.centerIn: parent
+        width: parent.width - 30
+        height: parent.height - 550
+
+        background: Rectangle {
+             color: "#1c1b1f"
+        }
+
+        onClosed: {
+            login_success_timer.stop();
+            main.push(Qt.resolvedUrl("HomeScreen.qml"));
+        }
+        
+        ColumnLayout {
+            anchors.centerIn: parent
+            spacing: 40
+            LottieAnimation {
+                loops: 1
+                quality: LottieAnimation.HighQuality
+                source: "qrc:/EventTracker/animations/login_success.json"
+                autoPlay: true
+                Layout.alignment: Qt.AlignCenter
+            }
+            Label {
+                text: "Welcome {USER}!"
+                font.family: "Segoe UI"
+                color: "white"
+                font.pixelSize: 20
+                font.bold: true
+            }
+        }
+    }
+
+    Timer {
+        id: login_success_timer
+        interval : 2000
+        onTriggered: {
+            login_success_popup.close();
+            main.push(Qt.resolvedUrl("HomeScreen.qml"));
+        }
+    }
+
     ColumnLayout {
         anchors.centerIn: parent
         spacing: 40
@@ -106,7 +155,8 @@ Page {
         target: auth
 
         function onLoginSuccess() {
-            main.push(Qt.resolvedUrl("HomeScreen.qml"))
+            login_success_timer.start();
+            login_success_popup.open();
         }
     }
 }

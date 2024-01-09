@@ -1,6 +1,6 @@
-import QtQuick
+// import QtQuick
 import QtQuick.Controls.Material
-import "pages/"
+import "./pages/"
 
 ApplicationWindow {
     id: window
