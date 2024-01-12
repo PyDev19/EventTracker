@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls.Material
 import QtQuick.Layouts
+import "../components/"
 
 Page {
     Button {
@@ -20,8 +21,19 @@ Page {
     }
 
     ColumnLayout {
-        anchors.centerIn: parent
-        spacing: 40
+        anchors.top: parent.top
+        anchors.topMargin: 50
+        anchors.right: parent.right
+        anchors.rightMargin: 0
+        anchors.left: parent.left
+        anchors.leftMargin: 0
+
+        spacing: 50
+
+        Image {
+            source: "qrc:/EventTracker/images/icon_128x128.png"
+            Layout.alignment: Qt.AlignCenter
+        }
 
         Label {
             text: "Event Tracker"
@@ -33,9 +45,9 @@ Page {
         }
 
         ColumnLayout {
-            spacing: 20
+            spacing: 15
 
-            Layout.maximumWidth: parent.width - 5
+            Layout.maximumWidth: parent.width - 30
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignCenter
 
@@ -48,58 +60,30 @@ Page {
                 Layout.alignment: Qt.AlignRight
             }
 
-            TextField {
+            CredentialsField {
                 id: _email_field
                 placeholderText: "Email"
-                Material.foreground: "#FFF"
-                Material.accent: Material.LightGreen
-                padding: 10
-                font.pixelSize: 20
-                font.family: "Segoe UI"
-                Layout.maximumWidth: parent.width - 5
-                Layout.fillWidth: true
-                Layout.alignment: Qt.AlignCenter
             }
 
-            TextField {
+            CredentialsField {
                 id: _username_field
                 placeholderText: "Username"
-                Material.foreground: "#FFF"
-                Material.accent: Material.LightGreen
-                padding: 10
-                font.pixelSize: 20
-                font.family: "Segoe UI"
-                Layout.maximumWidth: parent.width - 5
-                Layout.fillWidth: true
-                Layout.alignment: Qt.AlignCenter
             }
 
-            TextField {
+            CredentialsField {
                 id: _password_field
                 placeholderText: "Password"
-                Material.foreground: "#FFF"
-                Material.accent: Material.LightGreen
-                padding: 10
                 echoMode: TextInput.Password
-                font.pixelSize: 20
-                font.family: "Segoe UI"
-                Layout.maximumWidth: parent.width - 5
-                Layout.fillWidth: true
-                Layout.alignment: Qt.AlignCenter
             }
 
-            TextField {
+            CredentialsField {
                 id: confirm_password
                 placeholderText: "Confirm Password"
-                Material.foreground: "#FFF"
-                Material.accent: Material.LightGreen
-                padding: 10
                 echoMode: TextInput.Password
-                font.pixelSize: 20
-                font.family: "Segoe UI"
-                Layout.maximumWidth: parent.width - 5
-                Layout.fillWidth: true
-                Layout.alignment: Qt.AlignCenter
+            }
+
+            ErrorLabel {
+                id: error_label
             }
 
             Button {
@@ -109,9 +93,17 @@ Page {
                 font.family: "Segoe UI"
                 Layout.alignment: Qt.AlignCenter
                 onClicked: {
-                    if (_password_field.text == confirm_password.text) {
-                        auth.sign_up(_email_field.text, _password_field.text);
-                    } 
+                    if (_email_field.text === "") {
+                        error_label.text = "Email is required"
+                    } else if (_username_field.text === "") {
+                        error_label.text = "Username is required"
+                    } else if (_password_field.text === "") {
+                        error_label.text = "Password is required"
+                    } else if (_password_field.text != confirm_password.text) {
+                        error_label.text = "Passwords do not match"
+                    } else {
+                        auth.sign_up(_email_field.text, _password_field.text, _username_field.text);
+                    }
                 }
             }
         }
@@ -122,6 +114,7 @@ Page {
         
         function onSignupSuccess() {
             main.pop();
+            warning_label.text = ""
         }
     }
 }

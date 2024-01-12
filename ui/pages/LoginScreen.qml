@@ -3,6 +3,7 @@ import QtQml
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 import Qt.labs.lottieqt 1.0
+import "../components/"
 
 Page {
      Popup {
@@ -10,6 +11,9 @@ Page {
         modal: true
         focus: true
         closePolicy: Popup.CloseOnPressOutside
+
+        property var busy: false
+        property var username: ""
         
         anchors.centerIn: parent
         width: parent.width - 30
@@ -20,28 +24,40 @@ Page {
         }
 
         onClosed: {
-            login_success_timer.stop();
-            main.push(Qt.resolvedUrl("HomeScreen.qml"));
+            if (!busy) {
+                login_success_timer.stop();
+                main.push(Qt.resolvedUrl("HomeScreen.qml"));
+            }
+        }
+
+        BusyIndicator {
+            anchors.centerIn: parent
+            visible: login_success_popup.busy ? true : false
         }
         
         ColumnLayout {
             anchors.centerIn: parent
             spacing: 40
+
+            visible: login_success_popup.busy ? false : true
+
             LottieAnimation {
+                id: login_success_animation
                 loops: 1
                 quality: LottieAnimation.HighQuality
                 source: "qrc:/EventTracker/animations/login_success.json"
-                autoPlay: true
+                autoPlay: false
                 Layout.alignment: Qt.AlignCenter
             }
             Label {
-                text: "Welcome {USER}!"
+                text: "Welcome " + login_success_popup.username + "!"
                 font.family: "Segoe UI"
                 color: "white"
                 font.pixelSize: 20
                 font.bold: true
             }
         }
+
     }
 
     Timer {
@@ -54,9 +70,20 @@ Page {
     }
 
     ColumnLayout {
-        anchors.centerIn: parent
-        spacing: 40
+        anchors.top: parent.top
+        anchors.topMargin: 50
+        anchors.right: parent.right
+        anchors.rightMargin: 0
+        anchors.left: parent.left
+        anchors.leftMargin: 0
 
+        spacing: 50
+
+        Image {
+            source: "qrc:/EventTracker/images/icon_128x128.png"
+            Layout.alignment: Qt.AlignCenter
+        }
+        
         Label {
             text: "Event Tracker"
             font.bold: true
@@ -69,7 +96,7 @@ Page {
         ColumnLayout {
             spacing: 20
 
-            Layout.maximumWidth: parent.width - 5
+            Layout.maximumWidth: parent.width - 30
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignCenter
 
@@ -79,35 +106,20 @@ Page {
                 font.pixelSize: 30
                 font.family: "Segoe UI"
                 color: "#8aca8d"
-                Layout.alignment: Qt.AlignRight
+                Layout.alignment: Qt.AlignLeft
             }
 
-            TextField {
+            CredentialsField {
                 id: email_field
                 placeholderText: "Email"
-                Material.foreground: "#FFF"
-                Material.accent: Material.LightGreen
-                padding: 10
-                font.pixelSize: 20
-                font.family: "Segoe UI"
-                Layout.maximumWidth: parent.width - 5
-                Layout.fillWidth: true
-                Layout.alignment: Qt.AlignCenter
             }
 
-            TextField {
+            CredentialsField {
                 id: password_field
                 placeholderText: "Password"
-                Material.foreground: "#FFF"
-                Material.accent: Material.LightGreen
-                padding: 10
                 echoMode: TextInput.Password
-                font.pixelSize: 20
-                font.family: "Segoe UI"
-                Layout.maximumWidth: parent.width - 5
-                Layout.fillWidth: true
-                Layout.alignment: Qt.AlignCenter
             }
+
 
             ColumnLayout {
                 spacing: 0
@@ -115,6 +127,10 @@ Page {
                 Layout.maximumWidth: parent.width
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignCenter
+                
+                ErrorLabel {
+                    id: error_label
+                }
 
                 Button {
                     id: login_button
@@ -124,7 +140,15 @@ Page {
                     font.family: "Segoe UI"
                     Layout.alignment: Qt.AlignCenter
                     onClicked: {
-                        auth.login(email_field.text, password_field.text);
+                        if (email_field.text === "") {
+                            error_label.text = "Email is required";
+                        } else if (password_field.text === "") {
+                            error_label.text = "Password is required";
+                        } else {
+                            auth.login(email_field.text, password_field.text);
+                            login_success_popup.busy = true;
+                            login_success_popup.open();
+                        }
                     }
                 }
 
@@ -144,6 +168,8 @@ Page {
                     font.family: "Segoe UI"
                     Layout.alignment: Qt.AlignCenter
                     onClicked: {
+                        email_field.text = ""
+                        password_field.text = ""
                         main.push(Qt.resolvedUrl("SignupScreen.qml"));
                     }
                 }
@@ -154,9 +180,22 @@ Page {
     Connections {
         target: auth
 
-        function onLoginSuccess() {
+        function onLoginSuccess(username) {
+            login_success_popup.busy = false;
+            login_success_popup.username = username;
+            login_success_animation.play();
             login_success_timer.start();
-            login_success_popup.open();
+            email_field.text = ""
+            password_field.text = ""
+            error_label.text = ""
+        }
+
+        function onLoginWrongCredentials() {
+            login_success_popup.busy = true;
+            login_success_popup.close();
+            login_success_animation.stop();
+            login_success_timer.stop();
+            error_label.text = "Email or Password is incorrect" 
         }
     }
 }

@@ -31,7 +31,7 @@ Page {
             font.family: "Segoe UI"
             font.bold: true
             onClicked: {
-                auth.sign_out()
+                auth.sign_out(false)
             }
         }
     }
