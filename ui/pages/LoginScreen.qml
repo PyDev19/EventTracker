@@ -6,7 +6,7 @@ import Qt.labs.lottieqt 1.0
 import "../components/"
 
 Page {
-     Popup {
+    Popup {
         id: login_success_popup
         modal: true
         focus: true
@@ -57,7 +57,6 @@ Page {
                 font.bold: true
             }
         }
-
     }
 
     Timer {
@@ -196,6 +195,22 @@ Page {
             login_success_animation.stop();
             login_success_timer.stop();
             error_label.text = "Email or Password is incorrect" 
+        }
+
+        function onLoginUserDoesNotExist() {
+            login_success_popup.busy = true;
+            login_success_popup.close();
+            login_success_animation.stop();
+            login_success_timer.stop();
+            error_label.text = "User does not exist"
+        }
+
+        function onLoginUserDisabled() {
+            login_success_popup.busy = true;
+            login_success_popup.close();
+            login_success_animation.stop();
+            login_success_timer.stop();
+            error_label.text = "User does not exist"
         }
     }
 }
