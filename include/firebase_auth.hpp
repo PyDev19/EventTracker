@@ -26,6 +26,8 @@ signals:
     void signupSuccess();
     void signoutSuccess();
     void loginWrongCredentials();
+    void loginUserDoesNotExist();
+    void loginUserDisabled();
 
 private:
     App *app;

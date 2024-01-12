@@ -16,6 +16,10 @@ void FirebaseAuth::login(QString email, QString password) {
             emit loginSuccess(QString::fromStdString(user.display_name()));
         } else if (_result.error() == kAuthErrorUserNotFound || _result.error() == kAuthErrorWrongPassword) {
             emit loginWrongCredentials();
+        } else if (_result.error() == kAuthErrorUserNotFound) {
+            emit loginUserDoesNotExist();
+        } else if (_result.error() == kAuthErrorUserDisabled) {
+            emit loginUserDisabled();
         }
     });
 }
