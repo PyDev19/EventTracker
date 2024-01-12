@@ -18,13 +18,14 @@ class FirebaseAuth: public QObject {
 public:
     explicit FirebaseAuth(App *firebase_app, QObject *parent = nullptr);
     Q_INVOKABLE void login(QString email, QString password);
-    Q_INVOKABLE void sign_up(QString email, QString password);
-    Q_INVOKABLE void sign_out();
+    Q_INVOKABLE void sign_up(QString email, QString password, QString username);
+    Q_INVOKABLE void sign_out(bool no_emit);
 
 signals:
-    void loginSuccess();
+    void loginSuccess(QString username);
     void signupSuccess();
     void signoutSuccess();
+    void loginWrongCredentials();
 
 private:
     App *app;
