@@ -8,7 +8,7 @@
 
 EventsApi::EventsApi(QObject *parent): QObject(parent) {
     manager = new QNetworkAccessManager();
-    api_url = new QString("http://192.168.1.54:5000/search?query=");
+    api_url = new QString("https://pydev19.pythonanywhere.com/events?query=");
 }
 
 QString EventsApi::get_events(QString query) {
