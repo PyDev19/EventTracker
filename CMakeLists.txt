@@ -26,23 +26,28 @@ set_property(TARGET EventTracker APPEND PROPERTY
     QT_ANDROID_PACKAGE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/android
 )
 
-set_source_files_properties(qml/Main.qml PROPERTIES QT_RESOURCE_ALIAS Main.qml)
-set_source_files_properties(qml/pages/HomeScreen.qml PROPERTIES QT_RESOURCE_ALIAS pages/HomeScreen.qml)
-set_source_files_properties(qml/pages/LoginScreen.qml PROPERTIES QT_RESOURCE_ALIAS pages/LoginScreen.qml)
-set_source_files_properties(qml/pages/SignupScreen.qml PROPERTIES QT_RESOURCE_ALIAS pages/SignupScreen.qml)
-set_source_files_properties(qml/components/EventDelegate.qml PROPERTIES QT_RESOURCE_ALIAS components/EventDelegate.qml)
+set_source_files_properties(ui/Main.qml PROPERTIES QT_RESOURCE_ALIAS Main.qml)
+set_source_files_properties(ui/pages/HomeScreen.qml PROPERTIES QT_RESOURCE_ALIAS pages/HomeScreen.qml)
+set_source_files_properties(ui/pages/LoginScreen.qml PROPERTIES QT_RESOURCE_ALIAS pages/LoginScreen.qml)
+set_source_files_properties(ui/pages/SignupScreen.qml PROPERTIES QT_RESOURCE_ALIAS pages/SignupScreen.qml)
+set_source_files_properties(ui/components/EventDelegate.qml PROPERTIES QT_RESOURCE_ALIAS components/EventDelegate.qml)
+set_source_files_properties(ui/components/CredentialsField.qml PROPERTIES QT_RESOURCE_ALIAS components/CredentialsField.qml)
+set_source_files_properties(ui/components/ErrorLabel.qml PROPERTIES QT_RESOURCE_ALIAS components/ErrorLabel.qml)
 
 qt_add_qml_module(EventTracker
     URI EventTracker
     VERSION 1.0
     QML_FILES
-        qml/Main.qml
-        qml/pages/HomeScreen.qml
-        qml/pages/LoginScreen.qml
-        qml/pages/SignupScreen.qml
-        qml/components/EventDelegate.qml
+        ui/Main.qml
+        ui/pages/HomeScreen.qml
+        ui/pages/LoginScreen.qml
+        ui/pages/SignupScreen.qml
+        ui/components/EventDelegate.qml
+        ui/components/CredentialsField.qml
+        ui/components/ErrorLabel.qml
     RESOURCES 
         animations/login_success.json
+        images/icon_128x128.png
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
