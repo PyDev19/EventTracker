@@ -30,35 +30,41 @@ void FirebaseAuth::login(QString email, QString password) {
 }
 
 void FirebaseAuth::sign_up(QString email, QString password, QString username) {
-    // Attempt to create a new user with email and password
-    Future<AuthResult> result = auth->CreateUserWithEmailAndPassword(email.toUtf8().constData(), password.toUtf8().constData());
-    
-    // Set up callback for completion of sign-up attempt
-    result.OnCompletion([this, username](const Future<AuthResult> &_result) {
-        assert(_result.status() == kFutureStatusComplete); // check if the result has been retrieved
-        
-        // Check if the sign-up was successful
-        if (_result.error() == kAuthErrorNone) {
-            User user = auth->current_user(); // Retrieve current user
+    bool duplicate_username = firebase_firestore->check_duplicate_username(username); // check if username is a duplicate
+    // if username isn't unique then emit duplicate username signal else go on with regular signup
+    if (duplicate_username) {
+        emit duplicateUsername();
+    } else {
+        // Attempt to create a new user with email and password
+        Future<AuthResult> result = auth->CreateUserWithEmailAndPassword(email.toUtf8().constData(), password.toUtf8().constData());
+
+        // Set up callback for completion of sign-up attempt
+        result.OnCompletion([this, username](const Future<AuthResult> &_result) {
+            assert(_result.status() == kFutureStatusComplete); // check if the result has been retrieved
             
-            // Update user profile with provided username
-            if (user.is_valid()) {
-                User::UserProfile profile;
-                profile.display_name = username.toStdString().c_str();
-                user.UpdateUserProfile(profile);
+            // Check if the sign-up was successful
+            if (_result.error() == kAuthErrorNone) {
+                User user = auth->current_user(); // Retrieve current user
+                
+                // Update user profile with provided username
+                if (user.is_valid()) {
+                    User::UserProfile profile;
+                    profile.display_name = username.toStdString().c_str();
+                    user.UpdateUserProfile(profile);
+                }
+                
+                sign_out(true); // Sign out the user (no_emit is true to prevent signoutSuccess signal emission)
+                
+                emit signupSuccess(); // Emit signal for successful sign-up
+            } else if (_result.error() == kAuthErrorInvalidEmail) {
+                emit invalidEmail(); // Emit signal for invalid email during sign-up
+            } else if (_result.error() == kAuthErrorWeakPassword) {
+                emit weakPassword(); // Emit signal for weak password during sign-up
+            } else if (_result.error() == kAuthErrorEmailAlreadyInUse) {
+                emit duplicateEmail(); // Emit signal for email already in use during sign-up
             }
-            
-            sign_out(true); // Sign out the user (no_emit is true to prevent signoutSuccess signal emission)
-            
-            emit signupSuccess(); // Emit signal for successful sign-up
-        } else if (_result.error() == kAuthErrorInvalidEmail) {
-            emit invalidEmail(); // Emit signal for invalid email during sign-up
-        } else if (_result.error() == kAuthErrorWeakPassword) {
-            emit weakPassword(); // Emit signal for weak password during sign-up
-        } else if (_result.error() == kAuthErrorEmailAlreadyInUse) {
-            emit duplicateEmail(); // Emit signal for email already in use during sign-up
-        }
-    });
+        });
+    }
 }
 
 void FirebaseAuth::sign_out(bool no_emit) {

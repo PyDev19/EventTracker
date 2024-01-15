@@ -98,6 +98,11 @@ signals:
      * @brief Signal emitted when attempting to sign up with an email that is already in use.
     */
     void duplicateEmail();
+    
+    /**
+     * @brief Signal emitted when attempting to sign up with an username that is already in taken.
+    */
+    void duplicateUsername();
 
 private:
     App *app; /**< Pointer to the Firebase App instance. */
