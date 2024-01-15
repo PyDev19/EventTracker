@@ -14,12 +14,22 @@ find_package(Qt6 6.4 REQUIRED COMPONENTS Quick)
 
 qt_standard_project_setup()
 
-qt_add_executable(EventTracker
+set(sources
     src/main.cpp
-    src/firebase_auth.cpp
-    include/firebase_auth.hpp
-    src/events_api.cpp
-    include/events_api.hpp
+    src/database.cpp
+    src/auth.cpp
+    src/events.cpp
+)
+
+set(headers
+    include/events.hpp
+    include/auth.hpp
+    include/database.hpp
+)
+
+qt_add_executable(EventTracker
+    ${sources}
+    ${headers}
 )
 
 set_property(TARGET EventTracker APPEND PROPERTY
