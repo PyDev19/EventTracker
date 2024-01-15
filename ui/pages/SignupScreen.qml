@@ -148,18 +148,18 @@ Page {
                             if (signup_stack.password === "") {
                                 signup_error_label.text = "Password is required"
                             } else {
-                                let text = signup_stack.password.text
-                                if (text.match(/\d/g) === null) {
+                                let password = signup_stack.password
+                                if (password.match(/\d/g) === null) {
                                     signup_error_label.text = "Password must contain a number"
-                                } else if (text.match(/[\p{P}\p{S}\s]/g) === null) {
+                                } else if (password.match(/[\p{P}\p{S}\s]/g) === null) {
                                     signup_error_label.text = "Password must contain a special character"
-                                } else if (text.match(/[a-zA-z]/g) === null) {
+                                } else if (password.match(/[a-zA-z]/g) === null) {
                                     signup_error_label.text = "Password must contain a letter"
-                                } else if (text.match(/.{8,}/g) === null) {
+                                } else if (password.match(/.{8,}/g) === null) {
                                     signup_error_label.text = "Password must be atleast 8 characters long"
                                 } else {
                                     signup_error_label.text = ""
-                                    auth.sign_up(signup_stack.email.text, signup_stack.password.text, signup_stack.username.text);
+                                    auth.sign_up(signup_stack.email, password, signup_stack.username, signup_stack.phone);
                                     signup_popup.busy = true;
                                     signup_popup.open();
                                 }
@@ -168,68 +168,6 @@ Page {
                     }
                 }
             }
-
-            // CredentialsField {
-            //     id: _email_field
-            //     placeholderText: "Email"
-            // }
-            //
-            // CredentialsField {
-            //     id: _username_field
-            //     placeholderText: "Username"
-            // }
-            //
-            // CredentialsField {
-            //     id: _password_field
-            //     placeholderText: "Password"
-            //     password: true
-            // }
-            //
-            // CredentialsField {
-            //     id: confirm_password
-            //     placeholderText: "Confirm Password"
-            //     password: true
-            // }
-            //
-            // ErrorLabel {
-            //     id: error_label
-            // }
-            //
-            // Button {
-            //     text: "Sign up"
-            //     Material.background: Material.Green
-            //     font.pixelSize: 20
-            //     font.family: "Segoe UI"
-            //     Layout.alignment: Qt.AlignCenter
-            //     onClicked: {
-            //         error_label.text = ""
-            //         if (_email_field.text === "") {
-            //             error_label.text = "Email is required";
-            //         } else if (_username_field.text === "") {
-            //             error_label.text = "Username is required";
-            //         } else if (_password_field.text === "") {
-            //             error_label.text = "Password is required";
-            //         } else if (_password_field.text != confirm_password.text) {
-            //             error_label.text = "Passwords do not match";
-            //         } else {
-            //             let text = _password_field.text
-            //             if (text.match(/\d/g) === null) {
-            //                 error_label.text = "Password must contain a number"
-            //             } else if (text.match(/[\p{P}\p{S}\s]/g) === null) {
-            //                 error_label.text = "Password must contain a special character"
-            //             } else if (text.match(/[a-zA-z]/g) === null) {
-            //                 error_label.text = "Password must contain a letter"
-            //             } else if (text.match(/.{8,}/g) === null) {
-            //                 error_label.text = "Password must be atleast 8 characters long"
-            //             } else {
-            //                 error_label.text = ""
-            //                 auth.sign_up(_email_field.text, _password_field.text, _username_field.text);
-            //                 signup_popup.busy = true;
-            //                 signup_popup.open();
-            //             }
-            //         }
-            //     }
-            // }
         }
     }
 
@@ -252,17 +190,28 @@ Page {
 
         function onInvalidEmail() {
             signup_screen.signup_error();
-            error_label.text = "Email is invalid, try a another email"
+            signup_screen.step--;
+            signup_stack.pop()
+            signup_error_label.text = "Email is invalid, try a another email"
         }
 
         function onWeakPassword() {
             signup_screen.signup_error();
-            error_label.text = "Password is too weak"
+            signup_error_label.text = "Password is too weak"
         }
         
         function onDuplicateEmail() {
             signup_screen.signup_error()
-            error_label.text = "Email is already in use"
+            signup_screen.step--;
+            signup_stack.pop()
+            signup_error_label.text = "Email is already in use"
+        }
+
+        function onDuplicateUsername() {
+            signup_screen.signup_error()
+            signup_screen.step--;
+            signup_stack.pop()
+            signup_error_label.text = "Username is already taken"
         }
     }
 }
