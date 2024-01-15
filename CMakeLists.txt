@@ -29,10 +29,13 @@ set_property(TARGET EventTracker APPEND PROPERTY
 set_source_files_properties(ui/Main.qml PROPERTIES QT_RESOURCE_ALIAS Main.qml)
 set_source_files_properties(ui/pages/HomeScreen.qml PROPERTIES QT_RESOURCE_ALIAS pages/HomeScreen.qml)
 set_source_files_properties(ui/pages/LoginScreen.qml PROPERTIES QT_RESOURCE_ALIAS pages/LoginScreen.qml)
-set_source_files_properties(ui/pages/SignupScreen.qml PROPERTIES QT_RESOURCE_ALIAS pages/SignupScreen.qml)
+set_source_files_properties(ui/pages/SignUpScreen.qml PROPERTIES QT_RESOURCE_ALIAS pages/SignUpScreen.qml)
+set_source_files_properties(ui/pages/signup/InitialScreen.qml PROPERTIES QT_RESOURCE_ALIAS pages/signup/InitialScreen.qml)
+set_source_files_properties(ui/pages/signup/FinalScreen.qml PROPERTIES QT_RESOURCE_ALIAS pages/signup/FinalScreen.qml)
 set_source_files_properties(ui/components/EventDelegate.qml PROPERTIES QT_RESOURCE_ALIAS components/EventDelegate.qml)
 set_source_files_properties(ui/components/CredentialsField.qml PROPERTIES QT_RESOURCE_ALIAS components/CredentialsField.qml)
 set_source_files_properties(ui/components/ErrorLabel.qml PROPERTIES QT_RESOURCE_ALIAS components/ErrorLabel.qml)
+set_source_files_properties(ui/components/BusyPopup.qml PROPERTIES QT_RESOURCE_ALIAS components/BusyPopup.qml)
 
 qt_add_qml_module(EventTracker
     URI EventTracker
@@ -41,13 +44,19 @@ qt_add_qml_module(EventTracker
         ui/Main.qml
         ui/pages/HomeScreen.qml
         ui/pages/LoginScreen.qml
-        ui/pages/SignupScreen.qml
+        ui/pages/SignUpScreen.qml
+        ui/pages/signup/InitialScreen.qml
+        ui/pages/signup/FinalScreen.qml
         ui/components/EventDelegate.qml
         ui/components/CredentialsField.qml
         ui/components/ErrorLabel.qml
+        ui/components/BusyPopup.qml
     RESOURCES 
         animations/login_success.json
         images/icon_128x128.png
+        images/left_chevron.svg
+        images/password_hidden.svg
+        images/password_visible.svg
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
