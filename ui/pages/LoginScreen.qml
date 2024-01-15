@@ -2,70 +2,38 @@ import QtQuick
 import QtQml
 import QtQuick.Controls.Material
 import QtQuick.Layouts
-import Qt.labs.lottieqt 1.0
 import "../components/"
 
 Page {
-    Popup {
-        id: login_success_popup
-        modal: true
-        focus: true
-        closePolicy: Popup.CloseOnPressOutside
+    id: login_screen
+    BusyPopup {
+        id: login_popup
 
-        property var busy: false
-        property var username: ""
-        
-        anchors.centerIn: parent
-        width: parent.width - 30
-        height: parent.height - 550
-
-        background: Rectangle {
-             color: "#1c1b1f"
-        }
+        property var username
+        subtext: "Welcome " + username + "!" 
+        busy: true
 
         onClosed: {
             if (!busy) {
-                login_success_timer.stop();
+                login_timer.stop();
                 main.push(Qt.resolvedUrl("HomeScreen.qml"));
-            }
-        }
-
-        BusyIndicator {
-            anchors.centerIn: parent
-            visible: login_success_popup.busy ? true : false
-        }
-        
-        ColumnLayout {
-            anchors.centerIn: parent
-            spacing: 40
-
-            visible: login_success_popup.busy ? false : true
-
-            LottieAnimation {
-                id: login_success_animation
-                loops: 1
-                quality: LottieAnimation.HighQuality
-                source: "qrc:/EventTracker/animations/login_success.json"
-                autoPlay: false
-                Layout.alignment: Qt.AlignCenter
-            }
-            Label {
-                text: "Welcome " + login_success_popup.username + "!"
-                font.family: "Segoe UI"
-                color: "white"
-                font.pixelSize: 20
-                font.bold: true
             }
         }
     }
 
     Timer {
-        id: login_success_timer
-        interval : 2000
+        id: login_timer
+        interval : 3000
         onTriggered: {
-            login_success_popup.close();
-            main.push(Qt.resolvedUrl("HomeScreen.qml"));
+            login_popup.close();
         }
+    }
+
+    function login_error() {
+        login_popup.busy = true;
+        login_popup.close();
+        login_popup.stop();
+        login_timer.stop();
     }
 
     ColumnLayout {
@@ -111,12 +79,18 @@ Page {
             CredentialsField {
                 id: email_field
                 placeholderText: "Email"
+                Layout.maximumWidth: parent.width - 5
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignCenter
             }
 
             CredentialsField {
                 id: password_field
                 placeholderText: "Password"
-                echoMode: TextInput.Password
+                password: true
+                Layout.maximumWidth: parent.width - 5
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignCenter
             }
 
 
@@ -145,8 +119,8 @@ Page {
                             error_label.text = "Password is required";
                         } else {
                             auth.login(email_field.text, password_field.text);
-                            login_success_popup.busy = true;
-                            login_success_popup.open();
+                            login_popup.busy = true;
+                            login_popup.open();
                         }
                     }
                 }
@@ -169,7 +143,7 @@ Page {
                     onClicked: {
                         email_field.text = ""
                         password_field.text = ""
-                        main.push(Qt.resolvedUrl("SignupScreen.qml"));
+                        main.push(Qt.resolvedUrl("SignUpScreen.qml"));
                     }
                 }
             }
@@ -180,36 +154,27 @@ Page {
         target: auth
 
         function onLoginSuccess(username) {
-            login_success_popup.busy = false;
-            login_success_popup.username = username;
-            login_success_animation.play();
-            login_success_timer.start();
+            login_popup.busy = false;
+            login_popup.username = username;
+            login_popup.play();
+            login_timer.start();
             email_field.text = ""
             password_field.text = ""
             error_label.text = ""
         }
 
-        function onLoginWrongCredentials() {
-            login_success_popup.busy = true;
-            login_success_popup.close();
-            login_success_animation.stop();
-            login_success_timer.stop();
+        function onWrongCredentials() {
+            login_screen.login_error()
             error_label.text = "Email or Password is incorrect" 
         }
 
-        function onLoginUserDoesNotExist() {
-            login_success_popup.busy = true;
-            login_success_popup.close();
-            login_success_animation.stop();
-            login_success_timer.stop();
+        function onUserDoesNotExist() {
+            login_screen.login_error()
             error_label.text = "User does not exist"
         }
 
-        function onLoginUserDisabled() {
-            login_success_popup.busy = true;
-            login_success_popup.close();
-            login_success_animation.stop();
-            login_success_timer.stop();
+        function onUserDisabled() {
+            login_screen.login_error()
             error_label.text = "User does not exist"
         }
     }
